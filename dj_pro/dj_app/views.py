@@ -4,6 +4,7 @@ from .Serealizer import Movie_ser
 from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import cloudinary.uploader
 # Create your views here.
 def valid_file(pic):
     max=5*1024*1024
@@ -18,7 +19,9 @@ def create_user(req):
     mname=req.POST.get('name')
     mstatus=req.POST.get('status')
     m_budget=req.POST.get('budget')
-    m_pic=req.FILES['pic']
+    m_pic=req.FILES.get('pic')
+    img_url=cloudinary.uploader.upload(m_pic)
+    print(img_url) 
     isfile,msg=valid_file(m_pic)
     if(isfile):
         pass
