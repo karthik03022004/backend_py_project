@@ -21,13 +21,14 @@ def create_user(req):
     m_budget=req.POST.get('budget')
     m_pic=req.FILES.get('pic')
     img_url=cloudinary.uploader.upload(m_pic)
-    print(img_url) 
+    print(img_url['secure_url']) 
+    
     isfile,msg=valid_file(m_pic)
     if(isfile):
         pass
     else:
         HttpResponse(msg)
-    Movies.objects.create(name=mname,status=mstatus,budget=m_budget,pic=m_pic)
+    Movies.objects.create(name=mname,status=mstatus,budget=m_budget,pic=img_url['secure_url'])
     Movies.save()
     return JsonResponse({"data":"successful"})
 
